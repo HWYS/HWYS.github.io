@@ -66,11 +66,11 @@ class playGame extends Phaser.Scene{
     preload(){
        
 
-        this.load.image("ground", "ground.png");
-        this.load.image("ball", "pearl_ball.png");
-        this.load.image("shell", "shell.png");
-        this.load.image("tube", "tube.png");
-        this.load.image("score", "score.png");
+        this.load.image("ground", "img/ground.png");
+        this.load.image("ball", "img/pearl_ball.png");
+        this.load.image("shell", "img/shell.png");
+        this.load.image("tube", "img/tube.png");
+        this.load.image("score", "img/score.png");
     }
     create() {
         
@@ -197,7 +197,7 @@ class playGame extends Phaser.Scene{
         }
 
         
-        let scoreBgImage = this.add.image(60, 25, "score");
+        let scoreBgImage = this.add.image(80, 40, "score");
         //var style = { font: "65px Arial", fill: "#0000c7", align: "center" };
 
         //var text = this.add.text(200, 20, "My Text", style);
@@ -330,15 +330,15 @@ class playGame extends Phaser.Scene{
         var textStyle = {
             //fontSize: '16px',
             //fontFamily: 'Nivea',
-            font: 'bold 16px Nivea',
+            font: 'bold 12px Nivea',
             color: '#00136f',
             align: 'center',
             lineSpacing: 20,
             letterSpacing: 10,
             fontStyle: 'bold',
           }
-        this.scoreText = this.add.text(45, 10, "Score: 0", textStyle);
-        this.topScoreText = this.add.text(45, 30, "Best: "+this.topScore, {font: 'bold 12px Nivea',
+        this.scoreText = this.add.text(65, 25, "Score: 0", textStyle);
+        this.topScoreText = this.add.text(65, 40, "Best: "+this.topScore, {font: 'bold 10px Nivea',
                             color: '#00136f',
                             align: 'center',
                             lineSpacing: 20,
