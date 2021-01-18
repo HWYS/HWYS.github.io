@@ -36,12 +36,12 @@ let gameOptions = {
     // game scale between 2D and 3D
     gameScale: 0.1,
 
-    
+
 }
-window.onload = function() {
+window.onload = function () {
     let gameConfig = {
         type: Phaser.AUTO,
-        backgroundColor:0x87ceeb,
+        backgroundColor: 0x87ceeb,
         scale: {
             mode: Phaser.Scale.FIT,
             autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -52,19 +52,21 @@ window.onload = function() {
         physics: {
             default: "arcade"
         },
-        
-        
+
+
         scene: playGame
     }
     game = new Phaser.Game(gameConfig);
     window.focus();
 }
-class playGame extends Phaser.Scene{
-    constructor(){
+
+class playGame extends Phaser.Scene {
+    constructor() {
         super("PlayGame");
     }
-    preload(){
-       
+
+    preload() {
+
 
         this.load.image("ground", "img/ground.png");
         this.load.image("ball", "img/pearl_ball.png");
@@ -72,10 +74,11 @@ class playGame extends Phaser.Scene{
         this.load.image("tube", "img/tube.png");
         this.load.image("score", "img/score.png");
     }
+
     create() {
-        
+
         //let img = this.add.image(20, 20, "ground");
-        
+
         // method to create the 3D world
         this.create3DWorld();
 
@@ -96,7 +99,7 @@ class playGame extends Phaser.Scene{
     }
 
     // method to create the 3D world
-    create3DWorld(){
+    create3DWorld() {
 
         // 3D world creation
         this.phaser3D = new Phaser3D(this, {
@@ -141,7 +144,7 @@ class playGame extends Phaser.Scene{
     }
 
     // method to create the 2D ball
-    add2DBall(){
+    add2DBall() {
 
         // this is just the good old Arcade physics body creation
         this.ball = this.physics.add.sprite(game.config.width * gameOptions.ballStartXPosition, 0, "ball");
@@ -158,12 +161,12 @@ class playGame extends Phaser.Scene{
         // modify a bit the collision shape to make the game more kind with players
         this.ball.setSize(30, 50, true);
 
-        
+
         //this.ball.visible = false;
     }
 
     // method to create the 3D ball
-    add3DBall(){
+    add3DBall() {
 
         // create a red sphere
         this.ball3D = this.phaser3D.add.sphere({
@@ -177,26 +180,24 @@ class playGame extends Phaser.Scene{
             z: 0
         });
 
-        
-        
-        
+
         // set the ball to cast a shadow
         this.phaser3D.castShadow(this.ball3D);
     }
 
     // method to add platforms
-    addPlatforms(){
-        
+    addPlatforms() {
+
         // creation of a physics group containing all platforms
         this.platformGroup = this.physics.add.group();
         this.customPlatformGroup = this.physics.add.group();
         // let's proceed with the creation
-        for(let i = 0; i < gameOptions.platformAmount; i++){
+        for (let i = 0; i < gameOptions.platformAmount; i++) {
 
             this.add2DPlatform();
         }
 
-        
+
         let scoreBgImage = this.add.image(80, 40, "score");
         //var style = { font: "65px Arial", fill: "#0000c7", align: "center" };
 
@@ -206,31 +207,29 @@ class playGame extends Phaser.Scene{
 
         //  And now we'll color in some of the letters
         /*text.addColor('#ffff00', 16);*/
-        
+
     }
 
 
-    
     // method to set a random platform X position
-    setPlatformX(){
+    setPlatformX() {
         return this.getRightmostPlatform() + Phaser.Math.Between(gameOptions.platformDistanceRange[0], gameOptions.platformDistanceRange[1]);
     }
 
     // method to set a random platform Y position
-    setPlatformY(){
+    setPlatformY() {
         return Phaser.Math.Between(game.config.height * gameOptions.platformHeightRange[0], game.config.height * gameOptions.platformHeightRange[1]);
     }
 
-    add2DPlatform(){
+    add2DPlatform() {
 
         // st platform X position
         let platformX = (this.getRightmostPlatform() == 0) ? this.ball.x : this.setPlatformX();
-        
-        
-        
+
+
         // create 2D platform
         let platform = this.platformGroup.create(platformX, this.setPlatformY(), "ground");
-        
+
         // set platform registration point
         platform.setOrigin(0.5, 1);
 
@@ -239,36 +238,33 @@ class playGame extends Phaser.Scene{
 
         // set a random platform width
         platform.displayWidth = Phaser.Math.Between(gameOptions.platformLengthRange[0], gameOptions.platformLengthRange[1]);
-        
+
 
         // add 3D platform as a 2D platform property
         platform.platform3D = this.add3DPlatform(platform);
-        
+
         console.log("Y Position", this.setPlatformY);
-        
+
         let columnWidth = platform.platform3D.scale.x;
-        
+
         /*myPlatform = this.customPlatformGroup.create(platformX, platform.y -50, "ground");
         myPlatform.setImmovable(true);
         myPlatform.displayWidth = platform.displayWidth;*/
         //myPlatform.platform3D = this.addCustom3DPlatform(myPlatform);
         // Working 2D shell and product
-        
-        if(columnWidth >= 9 && columnWidth < 13){
-            myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y -30, 'shell');
+
+        if (columnWidth >= 9 && columnWidth < 13) {
+            myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y - 30, 'shell');
+        } else if (columnWidth >= 13) {
+            myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y - 70, 'tube');
         }
 
-        else if(columnWidth >= 13){
-            myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y -70, 'tube');
-        }
-        
 
     }
 
-    
 
     // method to add a 3D platform, the argument is the 2D platform
-    add3DPlatform(platform2D){
+    add3DPlatform(platform2D) {
 
         // create a green box
         let platform3D = this.phaser3D.add.box({
@@ -282,20 +278,20 @@ class playGame extends Phaser.Scene{
             z: 0
         });
 
-        
+
         // platform will receive shadows
         this.phaser3D.receiveShadow(platform3D);
 
         // scale the 3D platform to make it match 2D platform size
         platform3D.scale.x = platform2D.displayWidth * gameOptions.gameScale;
 
-       //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
-       
+        //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
+
 
         return platform3D;
     }
 
-    addCustom3DPlatform(platform2D){
+    addCustom3DPlatform(platform2D) {
 
         // create a green box
         let customPlatform3D = this.phaser3D.add.plane({
@@ -305,26 +301,26 @@ class playGame extends Phaser.Scene{
             //color: 0x40ff80,
             color: 0xffeeff,
             x: 0,
-            y:0, 
+            y: 0,
             //(game.config.height - platform2D.y) * gameOptions.gameScale - 25,
             z: 0
         });
 
-        
+
         // platform will receive shadows
         this.phaser3D.receiveShadow(platform3D);
 
         // scale the 3D platform to make it match 2D platform size
         customPlatform3D.scale.x = platform2D.displayWidth * gameOptions.gameScale;
 
-       //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
-       
+        //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
+
 
         return customPlatform3D;
     }
 
     // method to add the score, just a dynamic text
-    addScore(){
+    addScore() {
         this.score = 0;
         this.topScore = localStorage.getItem(gameOptions.localStorageName) == null ? 0 : localStorage.getItem(gameOptions.localStorageName);
         var textStyle = {
@@ -336,58 +332,60 @@ class playGame extends Phaser.Scene{
             lineSpacing: 20,
             letterSpacing: 10,
             fontStyle: 'bold',
-          }
+        }
         this.scoreText = this.add.text(65, 25, "Score: 0", textStyle);
-        this.topScoreText = this.add.text(65, 40, "Best: "+this.topScore, {font: 'bold 10px Nivea',
-                            color: '#00136f',
-                            align: 'center',
-                            lineSpacing: 20,
-                            letterSpacing: 10,});
+        this.topScoreText = this.add.text(65, 40, "Best: " + this.topScore, {
+            font: 'bold 10px Nivea',
+            color: '#00136f',
+            align: 'center',
+            lineSpacing: 20,
+            letterSpacing: 10,
+        });
     }
 
     // method to update the score
-    updateScore(inc){
+    updateScore(inc) {
         this.score += inc;
         //this.scoreText.text = "Score: " + this.score + "\nBest: " + this.topScore;
-        this.scoreText.text = "Score: "+this.score;
+        this.scoreText.text = "Score: " + this.score;
     }
 
     // listeners to make platforms move and stop
-    addListeners(){
-        this.input.on("pointerdown", function(){
+    addListeners() {
+        this.input.on("pointerdown", function () {
             this.platformGroup.setVelocityX(-gameOptions.platformSpeed);
             this.customPlatformGroup.setVelocityX(-gameOptions.platformSpeed);
         }, this);
-        this.input.on("pointerup", function(){
+        this.input.on("pointerup", function () {
             this.platformGroup.setVelocityX(0);
             this.customPlatformGroup.setVelocityX(0);
         }, this);
     }
 
     // method to get the rightmost platform
-    getRightmostPlatform(){
+    getRightmostPlatform() {
         let rightmostPlatform = 0;
-        this.platformGroup.getChildren().forEach(function(platform){
+        this.platformGroup.getChildren().forEach(function (platform) {
             rightmostPlatform = Math.max(rightmostPlatform, platform.x);
         });
         return rightmostPlatform;
     }
 
     // method to be executed at each frame
-    update(){
+    update() {
 
         // collision management ball Vs platforms
-        this.physics.world.collide(this.platformGroup, this.ball, function(){
+        this.physics.world.collide(this.platformGroup, this.ball, function () {
 
             // bounce back the ball
             this.ball.body.velocity.y = -gameOptions.bounceVelocity;
         }, null, this);
 
         // loop through all platforms
-        this.platformGroup.getChildren().forEach(function(platform){
+        this.platformGroup.getChildren().forEach(function (platform) {
 
             // if the platform leaves the screen to the left...
-            if(platform.getBounds().right < -100){
+            if (platform.getBounds().right < -100) {
 
                 // increase the score
                 this.updateScore(1);
@@ -398,24 +396,22 @@ class playGame extends Phaser.Scene{
 
                 // set new platform width
                 platform.displayWidth = Phaser.Math.Between(gameOptions.platformLengthRange[0], gameOptions.platformLengthRange[1]);
-                
-                
+
+
                 // adjust 3D platform scale and y position
 
                 platform.platform3D.scale.x = platform.displayWidth * gameOptions.gameScale;
-                
+
                 platform.platform3D.position.y = (game.config.height - platform.y) * gameOptions.gameScale - 25;
 
-                myPlatform.x = platform.x -170;
+                myPlatform.x = platform.x - 170;
                 myPlatform.y = platform.y - 50;
 
                 //console.log('Width', platform.platform3D.scale.x);
-               
-                if(platform.platform3D.scale.x >= 9 && platform.platform3D.scale.x < 13){
-                    myPlatform = this.customPlatformGroup.create(myPlatform.x, myPlatform.y * game.config.height, "shell");
-                }
 
-                else if(platform.platform3D.scale.x >= 13) {
+                if (platform.platform3D.scale.x >= 9 && platform.platform3D.scale.x < 13) {
+                    myPlatform = this.customPlatformGroup.create(myPlatform.x, myPlatform.y * game.config.height, "shell");
+                } else if (platform.platform3D.scale.x >= 13) {
                     myPlatform = this.customPlatformGroup.create(myPlatform.x, myPlatform.y * game.config.height, "tube");
                 }
             }
@@ -425,11 +421,11 @@ class playGame extends Phaser.Scene{
         }, this);
 
         // if 2D ball falls down the screen...
-        if(this.ball.y > game.config.height){
+        if (this.ball.y > game.config.height) {
 
             // manage best score
             localStorage.setItem(gameOptions.localStorageName, Math.max(this.score, this.topScore));
-            
+
             var textStyle = {
                 //fontSize: '20px',
                 //fontFamily: 'Nivea',
@@ -439,28 +435,35 @@ class playGame extends Phaser.Scene{
                 lineSpacing: 20,
                 letterSpacing: 10,
                 fontStyle: 'bold',
-              }
+            }
             //Show Messagebox
-            if(this.score < 100) {
+            if (this.score < 100) {
                 //this.showMessageBox("Hit a 100 score to get a chance to spin the wheel", this.width * .7, this.height * .5)
                 var rect = this.add.rectangle(380, 120, 355, 200, 0xd3d3d3);
                 let msg = this.add.text(245, 70, "Hit a 100 score\n to get a chance to spin the wheel", textStyle);
-                
+
                 this.playAgainBtn = this.add.text(340, 170, "Play Again", textStyle)
-                .on('pointerover', () => this.enterButtonHoverState() )
-                .on('pointerdown', () => this.playAgain() );
+                    .on('pointerover', () => this.enterButtonHoverState())
+                    .on('pointerdown', () => this.playAgain());
+
                 /*playAgainBtn = this.add.rectangle(270, 150, 100, 30, 0x00136f)
                 .setInteractive()
                 .on('pointerover', () => this.enterButtonHoverState() );*/
-                
+
                 //playAgainBtn.onInputOver.add(over, this);
                 //playAgainBtn.onInputOut.add(out, this);
                 //playAgainBtn.onInputUp.add(up, this);
                 //let playAgainBtn = this.add.button(300, 180, "Play Again");
             }
-            
+
             // restart the game
             //this.scene.start("PlayGame");
+
+            /**
+             * Hit API
+             */
+            this.scene.pause(); //avoid repeat
+            this.storePlayRecord();
         }
 
         // adjust 3D ball position
@@ -468,11 +471,28 @@ class playGame extends Phaser.Scene{
         this.ball3D.position.x = this.ball.x * gameOptions.gameScale;
 
     }
-    playAgain () {
+
+    playAgain() {
         alert('You Loose');
     }
+
     enterButtonHoverState() {
-        this.playAgainBtn.setStyle({ fill: '#ffffff'});
+        this.playAgainBtn.setStyle({fill: '#ffffff'});
+    }
+
+    storePlayRecord() {
+        var HOST_URL = "https://nivea.cbtp.ovh/api/v1"
+        $.ajax({
+            type: 'POST',
+            url: HOST_URL + '/game/play-history',
+            headers: {
+                'X-API-TOKEN': 'ce1bd7e2-0faa-11eb-8f45-df7d765dd1ad'
+            },
+            data: {
+                msid: window.localStorage.getItem('msid'),
+                score: this.score
+            }
+        });
     }
 
     showMessageBox(text, w = 300, h = 300) {
@@ -533,9 +553,11 @@ class playGame extends Phaser.Scene{
     up() {
 
     }
+
     over() {
 
     }
+
     out() {
 
     }
