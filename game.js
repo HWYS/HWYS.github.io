@@ -458,12 +458,6 @@ class playGame extends Phaser.Scene {
 
             // restart the game
             //this.scene.start("PlayGame");
-
-            /**
-             * Hit API
-             */
-            this.scene.pause(); //avoid repeat
-            this.storePlayRecord();
         }
 
         // adjust 3D ball position
@@ -478,21 +472,6 @@ class playGame extends Phaser.Scene {
 
     enterButtonHoverState() {
         this.playAgainBtn.setStyle({fill: '#ffffff'});
-    }
-
-    storePlayRecord() {
-        var HOST_URL = "https://nivea.cbtp.ovh/api/v1"
-        $.ajax({
-            type: 'POST',
-            url: HOST_URL + '/game/play-history',
-            headers: {
-                'X-API-TOKEN': 'ce1bd7e2-0faa-11eb-8f45-df7d765dd1ad'
-            },
-            data: {
-                msid: window.localStorage.getItem('msid'),
-                score: this.score
-            }
-        });
     }
 
     showMessageBox(text, w = 300, h = 300) {
