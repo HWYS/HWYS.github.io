@@ -3,7 +3,6 @@ let customPlatformGroup;
 let myPlatform;
 var playAgainBtn;
 
-
 let gameOptions = {
 
     // ball gravity
@@ -38,6 +37,7 @@ let gameOptions = {
 
 
 }
+
 window.onload = function () {
     let gameConfig = {
         type: Phaser.AUTO,
@@ -458,6 +458,13 @@ class playGame extends Phaser.Scene {
 
             // restart the game
             //this.scene.start("PlayGame");
+            this.cacheScene = this.scene;
+            this.scene.pause();
+            $('#mdl').modal('toggle');
+            var vm = this;
+            $('#btnTryAgain').click(function (e) {
+                vm.scene.start();
+            })
         }
 
         // adjust 3D ball position
