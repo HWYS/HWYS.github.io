@@ -437,7 +437,7 @@ class playGame extends Phaser.Scene {
                 fontStyle: 'bold',
             }
             //Show Messagebox
-            if (this.score < 10) {
+            if (this.score < 1) {
                 //this.showMessageBox("Hit a 100 score to get a chance to spin the wheel", this.width * .7, this.height * .5)
                 /*var rect = this.add.rectangle(380, 120, 355, 200, 0xd3d3d3);
                 let msg = this.add.text(245, 70, "Hit a 100 score\n to get a chance to spin the wheel", textStyle);
@@ -446,33 +446,32 @@ class playGame extends Phaser.Scene {
                     .on('pointerover', () => this.enterButtonHoverState())
                     .on('pointerdown', () => this.playAgain());*/
 
-                    this.cacheScene = this.scene;
-                    this.scene.pause();
-                    $('#mdl').modal('toggle');
-                    var vm = this;
-                    $('#btnTryAgain').click(function (e) {
-                        vm.scene.start();
-                    })
-            }
-            else {
+                this.cacheScene = this.scene;
+                this.scene.pause();
+                $('#mdl').modal('toggle');
+                var vm = this;
+                $('#btnTryAgain').click(function (e) {
+                    vm.scene.start();
+                })
+            } else {
                 this.cacheScene = this.scene;
                 this.scene.pause();
                 $('#goToSpinnWheel').modal('toggle');
-                    var vm = this;
-                    $('#btnTryAgain').click(function (e) {
-                        vm.scene.start();
-                    })
+                var vm = this;
+                $('#btnTryAgain').click(function (e) {
+                    vm.scene.start();
+                })
 
-                    $('#btnGoToSpinnWheel').click(function (e) {
-                        vm.scene.start();
-                        window.location.assign("https://spin-wheel.cbtp.ovh/?playTimes=10&spinnCount=10&bestScore=100&msid=3133352556771057");
-                    })
-                    //this.scene.start("PlayGame");   
+                $('#btnGoToSpinnWheel').click(function (e) {
+                    vm.scene.start();
+                    window.location.assign("https://spinning-wheel-canvas.test/?playTimes=10&spinnCount=10&bestScore=100&msid="+window.localStorage.getItem('msid'));
+                })
+                //this.scene.start("PlayGame");
             }
 
             // restart the game
             //this.scene.start("PlayGame");
-            
+
         }
 
         // adjust 3D ball position
@@ -480,5 +479,5 @@ class playGame extends Phaser.Scene {
         this.ball3D.position.x = this.ball.x * gameOptions.gameScale;
 
     }
-    
+
 }
