@@ -464,7 +464,7 @@ class playGame extends Phaser.Scene {
 
                 $('#btnGoToSpinnWheel').click(function (e) {
                     vm.scene.start();
-                    window.location.assign("https://spinning-wheel-canvas.test/?playTimes=10&spinnCount=10&bestScore=100&msid="+window.localStorage.getItem('msid'));
+                    window.location.assign("https://spin-wheel.cbtp.ovh/?playTimes=10&spinnCount=10&bestScore=100&msid="+window.localStorage.getItem('msid'));
                 })
                 //this.scene.start("PlayGame");
             }
