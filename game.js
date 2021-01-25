@@ -458,9 +458,13 @@ class playGame extends Phaser.Scene {
                 this.cacheScene = this.scene;
                 this.scene.pause();
                 $('#goToSpinnWheel').modal('toggle');
-                    var vm = this;
-                    $('#btnTryAgain').click(function (e) {
+                    $('#tryAgainModalBody').html = "Your score is "+this.score+ " pts\n"+
+                        "If you want to spinn the wheel one time and get a chance to win NIVEA goodies, "+
+                        "you need to hit 100 pts, try again."
+                     vm = this;
+                    $('#btnPlayAgain').click(function (e) {
                         vm.scene.start();
+                        
                     })
 
                     $('#btnGoToSpinnWheel').click(function (e) {

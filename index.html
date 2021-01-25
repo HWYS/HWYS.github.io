@@ -33,8 +33,9 @@
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="mdl">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <p>Hit a 100 score to get a chance to spin the wheel</p>
+            <div class="modal-header"><h3 class="modal-title">Less than 100 pts</h3></div>
+            <div class="modal-body" id="tryAgainModalBody">
+                <p id="tryAgainDialogText">Hit a 100 score to get a chance to spin the wheel</p>
                 <br>
                 <div>
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnTryAgain">Try Again</button>
@@ -46,14 +47,15 @@
 </div>
 
 <!--Modal-->
-<div class="modal fade bd-example-modal-lg" tabindex="0" role="dialog" id="goToSpinnWheel">
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" id="goToSpinnWheel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-                <p>You go more than 100 pts, Congratulations!</p>
+            <div class="modal-header"><h3 class="modal-title"><h3>More than 100 pts</h3></div>
+            <div class="modal-body" id="spinnWheelModalBody">
+                <p id="spinnWheelDialogText">You go more than 100 pts, Congratulations!</p>
                 <br>
                 <div>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnTryAgain">Try Again</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnPlayAgain">Try Again</button>
                     <!--<a href="www.spinwheel_url.com" class="btn btn-success" data-dismiss="modal">Go To Spin Wheel</a>-->
                     <button type="button" class="btn btn-primary" data-dismiss="modal" id="btnGoToSpinnWheel">Go To Spin Wheel</button>
 
