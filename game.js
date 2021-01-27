@@ -2,6 +2,7 @@ let game;
 let customPlatformGroup;
 let myPlatform;
 var playAgainBtn;
+var spinPoints = 1;
 
 let gameOptions = {
 
@@ -437,7 +438,7 @@ class playGame extends Phaser.Scene {
                 fontStyle: 'bold',
             }
             //Show Messagebox
-            if (this.score < 10) {
+            if (this.score < spinPoints) {
                 //this.showMessageBox("Hit a 100 score to get a chance to spin the wheel", this.width * .7, this.height * .5)
                 /*var rect = this.add.rectangle(380, 120, 355, 200, 0xd3d3d3);
                 let msg = this.add.text(245, 70, "Hit a 100 score\n to get a chance to spin the wheel", textStyle);
@@ -446,43 +447,49 @@ class playGame extends Phaser.Scene {
                     .on('pointerover', () => this.enterButtonHoverState())
                     .on('pointerdown', () => this.playAgain());*/
 
-                    this.cacheScene = this.scene;
-                    this.scene.pause();
-                    $('#mdl').modal('toggle');
-                    var vm = this;
-                    $('#btnTryAgain').click(function (e) {
-                        vm.scene.start();
-                    })
-            }
-            else {
+                this.cacheScene = this.scene;
+                this.scene.pause();
+                $('#mdl').modal('toggle');
+                $('#tryAgainDialogText').text("Your score is " + this.score + " pts\n" +
+                    "If you want to spinn the wheel one time and get a chance to win NIVEA goodies, " +
+                    "you need to hit 100 pts, try again.")
+                var vm = this;
+                $('#btnTryAgain').click(function (e) {
+                    vm.scene.start();
+                })
+            } else {
                 this.cacheScene = this.scene;
                 this.scene.pause();
                 $('#goToSpinnWheel').modal('toggle');
-                    $('#tryAgainModalBody').html = "Your score is "+this.score+ " pts\n"+
-                        "If you want to spinn the wheel one time and get a chance to win NIVEA goodies, "+
-                        "you need to hit 100 pts, try again."
-                     vm = this;
-                    $('#btnPlayAgain').click(function (e) {
-                        
-                        /*"Your score is "+score+ " pts\n"+
-                        "CONGRATULATIONS\n"+
-                        "You got a chance to win NIVEA goodies, by spinning the wheel one time. You can play again and again "+
-                        "to get higers score and spin the wheel more than one time"*/
-                        vm.scene.start();
-                        
-                    })
+                $('#spinnWheelDialogText').text("Your score is "+this.score+ " pts\n"+
+                    "CONGRATULATIONS\n"+
+                    "You got a chance to win NIVEA goodies, by spinning the wheel one time. You can play again and again "+
+                    "to get higers score and spin the wheel more than one time")
+                vm = this;
+                $('#btnPlayAgain').click(function (e) {
 
-                    $('#btnGoToSpinnWheel').click(function (e) {
-                        
-                        window.location.assign("https://spin-wheel.cbtp.ovh/?playTimes=10&spinnCount=10&bestScore=100&msid=3133352556771057");
-                        vm.scene.start();
-                    })
-                    //this.scene.start("PlayGame");   
+                    /*"Your score is "+score+ " pts\n"+
+                    "CONGRATULATIONS\n"+
+                    "You got a chance to win NIVEA goodies, by spinning the wheel one time. You can play again and again "+
+                    "to get higers score and spin the wheel more than one time"*/
+                    vm.scene.start();
+
+                })
+
+                $('#btnGoToSpinnWheel').click(function (e) {
+                    let playTimes = 10;
+                    let spinCount = parseInt(vm.score / spinPoints);
+                    let bestScore = vm.topScore;
+                    let msid = localStorage.getItem('msid');
+                    window.location.assign(`https://spin-wheel.cbtp.ovh/?playTimes=${playTimes}&spinnCount=${spinCount}&bestScore=${bestScore}&msid=${msid}`);
+                    vm.scene.start();
+                })
+                //this.scene.start("PlayGame");
             }
 
             // restart the game
             //this.scene.start("PlayGame");
-            
+
         }
 
         // adjust 3D ball position
@@ -490,5 +497,5 @@ class playGame extends Phaser.Scene {
         this.ball3D.position.x = this.ball.x * gameOptions.gameScale;
 
     }
-    
+
 }
