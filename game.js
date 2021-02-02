@@ -450,9 +450,8 @@ class playGame extends Phaser.Scene {
                 this.cacheScene = this.scene;
                 this.scene.pause();
                 $('#mdl').modal('toggle');
-                $('#tryAgainDialogText').text("Your score is " + this.score + " pts\n" +
-                    "If you want to spinn the wheel one time and get a chance to win NIVEA goodies, " +
-                    "you need to hit 100 pts, try again.")
+                $('#h1CurrentPoint').text(this.score);
+                $('#spanCurrentPoint').text(this.score);
                 var vm = this;
                 $('#btnTryAgain').click(function (e) {
                     vm.scene.start();
@@ -460,11 +459,18 @@ class playGame extends Phaser.Scene {
             } else {
                 this.cacheScene = this.scene;
                 this.scene.pause();
+                let playTimes = 10;
+                let spinCount = parseInt(this.score / spinPoints);
+                let bestScore = this.topScore;
+                let msid = localStorage.getItem('msid');
                 $('#goToSpinnWheel').modal('toggle');
-                $('#spinnWheelDialogText').text("Your score is "+this.score+ " pts\n"+
-                    "CONGRATULATIONS\n"+
-                    "You got a chance to win NIVEA goodies, by spinning the wheel one time. You can play again and again "+
-                    "to get higers score and spin the wheel more than one time")
+                $('#h1WinCurrentPoint').text(this.score);
+                $('#spanWinCurrentPoint').text(this.score);
+                $('#spinTime').text(spinCount);
+                // $('#spinnWheelDialogText').text("Your score is "+this.score+ " pts\n"+
+                //     "CONGRATULATIONS\n"+
+                //     "You got a chance to win NIVEA goodies, by spinning the wheel one time. You can play again and again "+
+                //     "to get higers score and spin the wheel more than one time")
                 vm = this;
                 $('#btnPlayAgain').click(function (e) {
 
@@ -477,10 +483,6 @@ class playGame extends Phaser.Scene {
                 })
 
                 $('#btnGoToSpinnWheel').click(function (e) {
-                    let playTimes = 10;
-                    let spinCount = parseInt(vm.score / spinPoints);
-                    let bestScore = vm.topScore;
-                    let msid = localStorage.getItem('msid');
                     window.location.assign(`https://spin-wheel.cbtp.ovh/?playTimes=${playTimes}&spinnCount=${spinCount}&bestScore=${bestScore}&msid=${msid}`);
                     vm.scene.start();
                 })
