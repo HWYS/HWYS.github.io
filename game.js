@@ -16,7 +16,7 @@ let gameOptions = {
     ballStartXPosition: 0.2,
 
     // amount of platforms to be created and recycled
-    platformAmount: 10,
+    platformAmount: 1000,
 
     // platform speed, in pixels per second
     platformSpeed: 650,
@@ -191,7 +191,7 @@ class playGame extends Phaser.Scene {
 
         // creation of a physics group containing all platforms
         this.platformGroup = this.physics.add.group();
-        this.customPlatformGroup = this.physics.add.group();
+        //this.customPlatformGroup = this.physics.add.group();
         // let's proceed with the creation
         for (let i = 0; i < gameOptions.platformAmount; i++) {
 
@@ -244,7 +244,7 @@ class playGame extends Phaser.Scene {
         // add 3D platform as a 2D platform property
         platform.platform3D = this.add3DPlatform(platform);
 
-        console.log("Y Position", this.setPlatformY);
+        //console.log("Y Position", this.setPlatformY);
 
         let columnWidth = platform.platform3D.scale.x;
 
@@ -253,12 +253,16 @@ class playGame extends Phaser.Scene {
         myPlatform.displayWidth = platform.displayWidth;*/
         //myPlatform.platform3D = this.addCustom3DPlatform(myPlatform);
         // Working 2D shell and product
-
+        
+        /**
+         * 
+         * Add Shells and products
+         
         if (columnWidth >= 9 && columnWidth < 13) {
             myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y - 30, 'shell');
         } else if (columnWidth >= 13) {
             myPlatform = this.customPlatformGroup.create(platformX - 150, platform.y - 70, 'tube');
-        }
+        }*/
 
 
     }
@@ -266,7 +270,7 @@ class playGame extends Phaser.Scene {
 
     // method to add a 3D platform, the argument is the 2D platform
     add3DPlatform(platform2D) {
-
+        //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
         // create a green box
         let platform3D = this.phaser3D.add.box({
             width: 1,
@@ -276,7 +280,9 @@ class playGame extends Phaser.Scene {
             color: 0xffeeff,
             x: 0,
             y: (game.config.height - platform2D.y) * gameOptions.gameScale - 25,
-            z: 0
+            z: 0,
+            textrueValue: platform2D.displayWidth * gameOptions.gameScale
+
         });
 
 
@@ -286,7 +292,7 @@ class playGame extends Phaser.Scene {
         // scale the 3D platform to make it match 2D platform size
         platform3D.scale.x = platform2D.displayWidth * gameOptions.gameScale;
 
-        //console.log('Width :', platform2D.displayWidth * gameOptions.gameScale);
+        
 
 
         return platform3D;
@@ -355,11 +361,11 @@ class playGame extends Phaser.Scene {
     addListeners() {
         this.input.on("pointerdown", function () {
             this.platformGroup.setVelocityX(-gameOptions.platformSpeed);
-            this.customPlatformGroup.setVelocityX(-gameOptions.platformSpeed);
+            //this.customPlatformGroup.setVelocityX(-gameOptions.platformSpeed);
         }, this);
         this.input.on("pointerup", function () {
             this.platformGroup.setVelocityX(0);
-            this.customPlatformGroup.setVelocityX(0);
+            //this.customPlatformGroup.setVelocityX(0);
         }, this);
     }
 
@@ -405,16 +411,20 @@ class playGame extends Phaser.Scene {
 
                 platform.platform3D.position.y = (game.config.height - platform.y) * gameOptions.gameScale - 25;
 
+                /**
                 myPlatform.x = platform.x - 170;
                 myPlatform.y = platform.y - 50;
 
                 //console.log('Width', platform.platform3D.scale.x);
-
+                
+                 * 
+                 * 
+                Add Shell and products
                 if (platform.platform3D.scale.x >= 9 && platform.platform3D.scale.x < 13) {
                     myPlatform = this.customPlatformGroup.create(myPlatform.x, myPlatform.y * game.config.height, "shell");
                 } else if (platform.platform3D.scale.x >= 13) {
                     myPlatform = this.customPlatformGroup.create(myPlatform.x, myPlatform.y * game.config.height, "tube");
-                }
+                } */
             }
 
             // adjust 3D platform x position

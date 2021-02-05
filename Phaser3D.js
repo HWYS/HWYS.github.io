@@ -903,7 +903,7 @@ class Phaser3D extends Phaser.Events.EventEmitter
         return obj;
     }
 
-    makeBox ({ size = null, width = 1, height = 1, depth = 1, texture = null, color = 0xffffff, material = null, x = 0, y = 0, z = 0 } = {})
+    makeBox ({ size = null, width = 1, height = 1, depth = 1, texture = null, color = 0xffffff, material = null, x = 0, y = 0, z = 0, textrueValue } = {})
     {
         if (size)
         {
@@ -918,7 +918,22 @@ class Phaser3D extends Phaser.Events.EventEmitter
 
         const geometry = new THREE.BoxBufferGeometry(width, height, depth);
         //const geometry = new RoundedBoxGeometry(width, height, depth, 2, 5);
-        texture = new THREE.TextureLoader().load('nivea_tube.png');
+        if(textrueValue >= 13) {
+            texture = new THREE.TextureLoader().load('/img/nivea_column_texture.jpeg');
+        }
+            
+        else if (textrueValue >= 10 && textrueValue < 13){
+            texture = new THREE.TextureLoader().load('/img/blue_column_texture.jpeg');
+        }
+            
+        else if(textrueValue < 10 && textrueValue >= 7) {
+            texture = new THREE.TextureLoader().load('/img/nivea_go_column_texture.jpeg')
+        }
+        
+        console.log(textrueValue);
+        
+        //var frontTexture = textrueValue < 7 ? new THREE.MeshStandardMaterial({color: 0xffffff}) : new THREE.MeshStandardMaterial({map: texture});
+        
         
         //material = new THREE.MeshBasicMaterial({map : texture, overdraw: 0.1});
         var materials = [
@@ -927,11 +942,15 @@ class Phaser3D extends Phaser.Events.EventEmitter
           //new THREE.MeshLambertMaterial({map: texture}),//Top
           new THREE.MeshBasicMaterial({color: 0xffffff}),
           new THREE.MeshNormalMaterial({color: 0xffffff}),
-          //new THREE.MeshPhongMaterial({map: texture}),//Front
-          new THREE.MeshStandardMaterial({color: 0xffffff}),
+          
+          
+          //frontTexture,
+          new THREE.MeshPhongMaterial({map: texture}),//Front
+          //new THREE.MeshStandardMaterial({color: 0xffffff}),
           new THREE.MeshBasicMaterial({color: 0xffffff})
         ];
 
+        
         this.mesh = new THREE.Mesh( this.geometry, this.materials );
 
         
