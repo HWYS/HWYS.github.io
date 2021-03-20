@@ -44,17 +44,17 @@ window.onload = function () {
         type: Phaser.AUTO,
         backgroundColor: 0x87ceeb,
         scale: {
-            mode: Phaser.Scale.FIT,
-            autoCenter: Phaser.Scale.CENTER_BOTH,
+            mode: Phaser.Scale.RESIZE,
+            autoCenter: Phaser.Scale.NO_CENTER,
             parent: "thegame",
-            width: 750,
+            width: 700,
             height: 500
         },
         physics: {
             default: "arcade"
         },
 
-
+        
         scene: playGame
     }
     game = new Phaser.Game(gameConfig);
@@ -68,7 +68,7 @@ class playGame extends Phaser.Scene {
 
     preload() {
 
-
+        
         this.load.image("ground", "img/ground.png");
         this.load.image("ball", "img/pearl_ball.png");
         this.load.image("shell", "img/shell.png");
@@ -109,13 +109,13 @@ class playGame extends Phaser.Scene {
             fov: 25,
 
             // camera x, y and z position
-            x: 50,
+            x: 30,
             y: 110,
             z: 110
         });
 
         // point the camera at a x, y, z coordinate
-        this.phaser3D.camera.lookAt(50, 20, 0);
+        this.phaser3D.camera.lookAt(25, 25, 0);
 
         // enable shadows
         this.phaser3D.enableShadows();
