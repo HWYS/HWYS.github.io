@@ -115,7 +115,7 @@ class playGame extends Phaser.Scene {
         });
 
         // point the camera at a x, y, z coordinate
-        this.phaser3D.camera.lookAt(25, 25, 0);
+        this.phaser3D.camera.lookAt(25, 15, 0);
 
         // enable shadows
         this.phaser3D.enableShadows();
