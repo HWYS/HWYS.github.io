@@ -199,7 +199,7 @@ class playGame extends Phaser.Scene {
         }
 
 
-        let scoreBgImage = this.add.image(100, 45, "score");
+        let scoreBgImage = this.add.image(260, 45, "score");
         //var style = { font: "65px Arial", fill: "#0000c7", align: "center" };
 
         //var text = this.add.text(200, 20, "My Text", style);
@@ -340,8 +340,8 @@ class playGame extends Phaser.Scene {
             letterSpacing: 10,
             fontStyle: 'bold',
         }
-        this.scoreText = this.add.text(80, 25, "Score: 0", textStyle);
-        this.topScoreText = this.add.text(80, 47, "Best: " + this.topScore, {
+        this.scoreText = this.add.text(250, 25, "Score: 0", textStyle);
+        this.topScoreText = this.add.text(250, 47, "Best: " + this.topScore, {
             font: 'bold 15px Nivea',
             color: '#00136f',
             align: 'center',
